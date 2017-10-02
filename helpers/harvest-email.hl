@@ -1,0 +1,76 @@
+﻿
+/*
+ * File responsible for allowing user to "rate" an object.
+ */
+
+
+
+
+
+/*
+ * Creating our "harvester" widget, trying to collect user's email address.
+ */
+create-widget
+  parent:widget-wrp
+  class:strip fill col-60 offset-20
+  widgets
+    input:collect-name
+      placeholder:Full name ...
+      type:text
+      onkeydown:@"if (event.keyCode == 13) {p5.$('submit-email').raise('onclick');return false;}"
+      oninit
+        micro.page.set-focus:x:/../*/_event?value
+    input:collect-email
+      placeholder:Email address ...
+      type:text
+      onkeydown:@"if (event.keyCode == 13) {p5.$('submit-email').raise('onclick');return false;}"
+    button:submit-email
+      innerValue:Submit
+      onclick
+
+        /*
+         * Retrieving name/email user typed in.
+         */
+        get-widget-property:collect-email
+          value
+        get-widget-property:collect-name
+          value
+
+        /*
+         * Retrieving the database ID for the current rating, and updating it with
+         * an actual email address now.
+         */
+        p5.web.viewstate.get:harvester.db-id
+        p5.mysql.connect:[camphora]
+          p5.mysql.update:@"update `star-rater` set `email` = @email, `name` = @name where id = @id"
+            @email:x:/../*/get-widget-property/*/collect-email/*?value
+            @name:x:/../*/get-widget-property/*/collect-name/*?value
+            @id:x:/@p5.web.viewstate.get/*?value
+
+        /*
+         * Providing instant feedback to user, disabling the button, and waiting 2 seconds
+         * before we re-direct him to the "profile page".
+         */
+        micro.windows.info:"Thank you :)"
+        set-widget-property:submit-email
+          disabled
+
+        /*
+         * Re-directing user after 2 seconds.
+         */
+        p5.web.send-javascript:@"setTimeout(function(){{window.location='/harvester/profile/{0}'}}, 2000);"
+          :x:/@p5.web.viewstate.get/*?value
+
+
+
+
+
+/*
+ * Creating our "disclaimer, 'opt in'" widget, informing user we will solicit him.
+ */
+create-widget
+  element:p
+  parent:widget-wrp
+  class:col-60 offset-20
+  style:"color:#bbbbbb;"
+  innerValue:@"By supplying your email address in the above field, and clicking submit, you accept that we can contact you with offers about Phosphorus Five and the GaiaSoul Suite."

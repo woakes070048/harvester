@@ -1,0 +1,60 @@
+
+/*
+ * An extension widget that allows people to view a rating, displaying 1-5 stars.
+ *
+ * Expects [value] being number of stars from 1-5.
+ */
+create-event:harvester.widgets.star-display
+
+  /*
+   * Used to separate arguments from the rest of our lambda.
+   */
+  .signal
+
+  /*
+   * Applying arguments.
+   */
+  add:x:/../*/return/*/container
+    src:x:/@.signal/--(!/value)
+
+  /*
+   * Changing values according to given [value].
+   */
+  set:x:/../*/return/*/container/*/widgets/*/a/*/innerValue/[0,{0}]?value
+    :x:/../*/value?value
+    src:@"<span class=""icon-star""></span>"
+  set:x:/../*/return/*/container/*/widgets/*/a/*/innerValue/[{0},]?value
+    :x:/../*/value?value
+    src:@"<span class=""icon-star-o""></span>"
+
+  /*
+   * Returning container widget wrapping actual star rater widget.
+   */
+  return
+    container
+      widgets
+        a
+          href:#
+          role:button
+          innerValue
+          title:Zux!
+        a
+          href:#
+          role:button
+          innerValue
+          title:OK'ish
+        a
+          href:#
+          role:button
+          innerValue
+          title:OK
+        a
+          href:#
+          role:button
+          innerValue
+          title:Very good
+        a
+          href:#
+          role:button
+          innerValue
+          title:Amazingly freakin' brilliant!

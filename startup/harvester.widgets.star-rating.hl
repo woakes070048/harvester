@@ -1,0 +1,163 @@
+
+/*
+ * An extension widget that allows people to click one of 5 stars to "rate" something.
+ */
+create-event:harvester.widgets.star-rating
+
+  /*
+   * Used to separate arguments from the rest of our lambda.
+   */
+  .signal
+
+  /*
+   * Applying arguments.
+   */
+  add:x:/../*/return/*/container
+    src:x:/@.signal/--
+
+  /*
+   * Returning container widget wrapping actual star rater widget.
+   */
+  return
+    container
+      events
+
+        /*
+         * Returns the value the user rated the object to.
+         *
+         * Expects [_arg] being main star widget.
+         */
+        harvester.widgets.star-rating.value
+
+          /*
+           * Verifying this is our instance.
+           */
+          if:x:/../*/_arg?value
+            !=:x:/../*/_event?value
+
+            /*
+             * Not our guy.
+             */
+            return
+
+          /*
+           * Figuring out how many of our child widgets have been set, and returning
+           * the number of "closed stars" to caller.
+           */
+          p5.web.widgets.find-like:x:/../*/_event?value
+            innerValue:@"icon-star"""
+          return:x:/@p5.web.widgets.find-like/*/*?count
+
+        /*
+         * Toggles stars according to which star was clicked.
+         *
+         * Expects [_arg] being main star widget, and [widget] being child widget that
+         * was actualyl clicked (star).
+         */
+        harvester.widgets.star-rating._internal.toggle
+
+          /*
+           * Verifying this is our instance.
+           */
+          if:x:/../*/_arg?value
+            !=:x:/../*/_event?value
+
+            /*
+             * Not our guy.
+             */
+            return
+
+          /*
+           * Retrieving child widgets, and looping through them, making sure we
+           * correctly toggle their CSS classes.
+           */
+          _on:icon-star
+          _off:icon-star-o
+          _cur:_on
+          p5.web.widgets.get-children:x:/../*/_event?value
+          for-each:x:/@p5.web.widgets.get-children/*/*?value
+            set-widget-property:x:/@_dp?value
+              innerValue:@"<span class=""{0}""></span>"
+                :x:/@{0}?value
+                  :x:/@_cur?value
+            if:x:/@_dp?value
+              =:x:/../*/widget?value
+              set:x:/@_cur?value
+                src:_off
+
+      widgets
+        a
+          href:#
+          role:button
+          innerValue:@"<span class=""icon-star-o""></span>"
+          title:Zux!
+          onclick
+
+            /*
+             * Invoking event that toggles our stars accordingly.
+             */
+            p5.web.widgets.get-parent:x:/../*/_event?value
+            eval-x:x:/+/*
+            harvester.widgets.star-rating._internal.toggle:x:/@p5.web.widgets.get-parent/*/*?value
+              widget:x:/../*/_event?value
+
+        a
+          href:#
+          role:button
+          innerValue:@"<span class=""icon-star-o""></span>"
+          title:OK'ish
+          onclick
+
+            /*
+             * Invoking event that toggles our stars accordingly.
+             */
+            p5.web.widgets.get-parent:x:/../*/_event?value
+            eval-x:x:/+/*
+            harvester.widgets.star-rating._internal.toggle:x:/@p5.web.widgets.get-parent/*/*?value
+              widget:x:/../*/_event?value
+
+        a
+          href:#
+          role:button
+          innerValue:@"<span class=""icon-star-o""></span>"
+          title:OK
+          onclick
+
+            /*
+             * Invoking event that toggles our stars accordingly.
+             */
+            p5.web.widgets.get-parent:x:/../*/_event?value
+            eval-x:x:/+/*
+            harvester.widgets.star-rating._internal.toggle:x:/@p5.web.widgets.get-parent/*/*?value
+              widget:x:/../*/_event?value
+
+        a
+          href:#
+          role:button
+          innerValue:@"<span class=""icon-star-o""></span>"
+          title:Very good
+          onclick
+
+            /*
+             * Invoking event that toggles our stars accordingly.
+             */
+            p5.web.widgets.get-parent:x:/../*/_event?value
+            eval-x:x:/+/*
+            harvester.widgets.star-rating._internal.toggle:x:/@p5.web.widgets.get-parent/*/*?value
+              widget:x:/../*/_event?value
+
+        a
+          href:#
+          role:button
+          innerValue:@"<span class=""icon-star-o""></span>"
+          title:Amazingly freakin' brilliant!
+          onclick
+
+            /*
+             * Invoking event that toggles our stars accordingly.
+             */
+            p5.web.widgets.get-parent:x:/../*/_event?value
+            eval-x:x:/+/*
+            harvester.widgets.star-rating._internal.toggle:x:/@p5.web.widgets.get-parent/*/*?value
+              widget:x:/../*/_event?value
+

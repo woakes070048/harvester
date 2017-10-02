@@ -1,0 +1,68 @@
+﻿
+/*
+ * File responsible for allowing user to "view" a rating for an object.
+ *
+ * Expects [id] being database id.
+ */
+
+
+
+
+
+/*
+ * Fetching profile data from database.
+ */
+p5.mysql.connect:[camphora]
+  p5.mysql.select:@"select * from `star-rater` where id = @id"
+    @id:x:/../*/id?value
+  if:x:/-/*?count
+    =:int:0
+    or:x:/@p5.mysql.select/*/*/rating?value.int
+      <:int:3
+
+    /*
+     * Profile doesn't exist, or rating is too low to display.
+     */
+    return
+
+
+
+
+
+/*
+ * Guaring against script inclusion, and other malicious data.
+ */
+p5.html.html-encode:x:/@p5.mysql.connect/*/p5.mysql.select/*/*/comment?value
+
+
+
+
+
+/*
+ * Creating our "view profile" widget.
+ */
+eval-x:x:/+/**/harvester.widgets.star-display/*/value
+create-widget:harvester-container
+  class:container
+  widgets
+    div
+      class:row
+      widgets
+        div
+          class:col-100
+          widgets
+            div:widget-wrp
+              class:shaded rounded air-inner bg air-top
+              widgets
+                h1
+                  innerValue:{0} rated this
+                    :x:/@p5.mysql.connect/*/p5.mysql.select/*/*/name?value
+                  class:center
+                harvester.widgets.star-display
+                  class:center harvester-star-rater
+                  value:x:/@p5.mysql.connect/*/p5.mysql.select/*/*/rating?value
+                literal
+                  element:blockquote
+                  class:col-60 offset-20 quote
+                  innerValue:@"""{0}"""
+                    :x:/@p5.html.html-encode?value

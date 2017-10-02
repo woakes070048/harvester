@@ -1,0 +1,42 @@
+
+/*
+ * File responsible for initializing "harvester".
+ *
+ * Creates two Active Events [p5.io.unroll-path.@HARVESTER] and [harvester.version] - Which evaluates 
+ * to the "/harvester/" folder, and is used as an "environment path variable" - In addition 
+ * to a version Active Event that is used when the core is checking for new versions of your app.
+ */
+
+
+/*
+ * Creates the "path" Active Event.
+ */
+split:x:/..?name
+  =:/
+set:x:/@split/0/-
+join:x:/@split/*?name
+  sep:/
+eval-x:x:/+/*
+create-event:p5.io.unroll-path.@HARVESTER
+  return:/{0}
+    :x:/@join?value
+
+
+
+
+
+/*
+ * Creates our version Active Event.
+ */
+create-event:harvester.version
+
+  return:decimal:5.0
+
+
+
+
+
+/*
+ * Evaluates all Hyperlambda files recursively within the "@HARVESTER/startup/" folder.
+ */
+micro.evaluate.folder:@HARVESTER/startup/

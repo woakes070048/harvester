@@ -1,0 +1,45 @@
+﻿
+/*
+ * File responsible for starting the "harvester" app.
+ *
+ * This file is evaluated when the user clicks the "desktop icon" for the app.
+ */
+
+
+
+
+
+/*
+ * Including Micro and its "serious" skin.
+ */
+p5.web.include-css-file:@MICRO/media/main.css
+p5.web.include-css-file:@MICRO/media/fonts.css
+p5.web.include-css-file:@MICRO/media/skins/sea-breeze.css
+p5.web.include-css-file:@HARVESTER/media/main.css
+
+
+
+
+
+/*
+ * Checking if we have a request for a specific "profile page".
+ */
+split:x:/../*/url?value
+  =:/
+if:x:/@split/1?name
+  =:profile
+
+  /*
+   * A specific profile was requested.
+   */
+  eval-x:x:/+/*
+  micro.evaluate.file:@HARVESTER/helpers/view-profile.hl
+    id:x:/@split/0/-?name.int
+
+else
+
+  /*
+   * Creating our "harvester" widget by invoking file responsible for allowing
+   * the user to rate the object.
+   */
+  micro.evaluate.file:@HARVESTER/helpers/rate.hl
