@@ -39,8 +39,10 @@ paragraph.
 
 ## Integrate it with your own QR code
 
-The brilliance of the system truly comes to shine, once you combine it with e.g. a QR code on your retail location. This allows
+The brilliance of the system truly comes to shine, once you combine it with e.g. a QR code at your own retail location. This allows
 you to have all of your happy customers share how awesome you are, and how happy they are with your service/product - And such create
 more customers for you and your shop. You can create your own QR code, linking to your own personal 
 rater [here](http://www.qr-code-generator.com/) for instance.
+
+Basically, it gives any _"mom and pop store"_ a billion dollars worth of marketing tools, and it's Open Source!
 
