@@ -32,5 +32,15 @@ and your service/product. Below is a screenshot of how this looks profile page l
 
 The system can be easily configured and installed on your own 
 server, [read how here](https://gaiasoul.com/2017/10/03/harvest-love-from-your-customers/). We can also help you create your own profile for
-the system. You can [try a live version of the system here](https://samples.gaiasoul.com/harvester).
+the system. You can [try a live version of the system here](https://samples.gaiasoul.com/harvester), or by scanning the QR code below this
+paragraph.
+
+![alt screenshot](media/harvester-qr-code.png)
+
+## Integrate it with your own QR code
+
+The brilliance of the system truly comes to shine, once you combine it with e.g. a QR code on your retail location. This allows
+you to have all of your happy customers share how awesome you are, and how happy they are with your service/product - And such create
+more customers for you and your shop. You can create your own QR code, linking to your own personal 
+rater [here](http://www.qr-code-generator.com/) for instance.
 
