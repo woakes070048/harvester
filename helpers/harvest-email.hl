@@ -46,20 +46,48 @@ create-widget
             @email:x:/../*/get-widget-property/*/collect-email/*?value
             @name:x:/../*/get-widget-property/*/collect-name/*?value
             @id:x:/@p5.web.viewstate.get/*?value
+          p5.mysql.scalar:@"select `rating` from `star-rater` where id = @id"
+            @id:x:/@p5.web.viewstate.get/*?value
 
         /*
-         * Providing instant feedback to user, disabling the button, and waiting 2 seconds
-         * before we re-direct him to the "profile page".
+         * Disabling the button, to avoid double clicks.
          */
-        micro.windows.info:"Thank you :)"
         set-widget-property:submit-email
           disabled
 
         /*
-         * Re-directing user after 2 seconds.
+         * Re-directing user to "profile page" after 1 second, but only if he is
+         * at least "partially happy" about the object.
          */
-        p5.web.send-javascript:@"setTimeout(function(){{window.location='/harvester/profile/{0}'}}, 2000);"
-          :x:/@p5.web.viewstate.get/*?value
+        if:x:/@p5.mysql.connect/*/p5.mysql.scalar?value.int
+          >:int:2
+
+          /*
+           * Providing instant feedback to user, disabling the button, and waiting 2 seconds
+           * before we re-direct him to the "profile page".
+           */
+          micro.windows.info:"Thank you :)"
+
+          /*
+           * User was happy about this, hence we'll re-direct him to his "profile page",
+           * allowing him to share it on Facebook.
+           */
+          p5.web.send-javascript:@"setTimeout(function(){{window.location='/harvester/profile/{0}'}}, 1000);"
+            :x:/@p5.web.viewstate.get/*?value
+
+        else
+
+          /*
+           * User was not happy about this, letting him know somebody will contact him about
+           * his experience, and try to fix his issues.
+           */
+          create-widgets
+            micro.widgets.modal
+              widgets
+                h3
+                  innerValue:I am sorry to hear that you were not happy
+                p
+                  innerValue:@"An associate from GaiaSoul will contact you soon, to hear if we can somehow help you, to make sure your experience with Phosphorus Five becomes more pleasent."
 
 
 
@@ -73,4 +101,4 @@ create-widget
   parent:widget-wrp
   class:col-60 offset-20
   style:"color:#bbbbbb;"
-  innerValue:@"By supplying your email address in the above field, and clicking submit, you accept that we can contact you with offers about Phosphorus Five and the GaiaSoul Suite."
+  innerValue:@"By supplying your email address in the above field, and clicking submit, you accept that we can send you emails about Phosphorus Five and the GaiaSoul Suite."

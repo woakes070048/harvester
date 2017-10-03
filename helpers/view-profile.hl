@@ -30,9 +30,29 @@ p5.mysql.connect:[camphora]
 
 
 /*
- * Guaring against script inclusion, and other malicious data.
+ * Guarding against script inclusion, and other malicious input data.
  */
+p5.html.html-encode:x:/@p5.mysql.connect/*/p5.mysql.select/*/*/name?value
 p5.html.html-encode:x:/@p5.mysql.connect/*/p5.mysql.select/*/*/comment?value
+
+
+
+
+
+/*
+ * URL encoding URL for share buttons.
+ */
+p5.web.get-location
+p5.html.url-encode:x:/@p5.web.get-location?value
+
+
+
+
+
+/*
+ * Modifying other parts of the website.
+ */
+p5.web.page.set-title:I think this is awesome!
 
 
 
@@ -52,17 +72,48 @@ create-widget:harvester-container
           class:col-100
           widgets
             div:widget-wrp
-              class:shaded rounded air-inner bg air-top
+              class:shaded rounded air-inner bg air-top rating-wrapper
               widgets
+                a
+                  href:/harvester
+                  title:Rate it yourself!
+                  widgets
+                    img
+                      alt:Good stuff!
+                      src:/modules/harvester/media/star.png
+                      class:harvester-image
                 h1
                   innerValue:{0} rated this
-                    :x:/@p5.mysql.connect/*/p5.mysql.select/*/*/name?value
+                    :x:/../*/p5.mysql.connect/[0,1]/*/p5.mysql.select/*/*/name?value
                   class:center
                 harvester.widgets.star-display
-                  class:center harvester-star-rater
+                  class:center harvester-star-rater harvester-view-stars
                   value:x:/@p5.mysql.connect/*/p5.mysql.select/*/*/rating?value
+                p
+                  innerValue:@"{0} thinks <a href=""https://gaiasoul.com"" target=""_blank"">Phosphorus Five</a> is"
+                    :x:/../*/p5.mysql.connect/[0,1]/*/p5.mysql.select/*/*/name?value
+                  class:center
                 literal
                   element:blockquote
-                  class:col-60 offset-20 quote
+                  class:col-60 offset-20 quote center
                   innerValue:@"""{0}"""
                     :x:/@p5.html.html-encode?value
+                div
+                  class:share-wrapper
+                  widgets
+                    a
+                      href:@"https://www.facebook.com/sharer/sharer.php?u={0}"
+                        :x:/../*/p5.html.url-encode/[0,1]?value
+                      target:_blank
+                      innerValue:Share on Facebook
+                      class:share-button
+                    a
+                      href:"https://twitter.com/intent/tweet?text={0}"
+                        :x:/../*/p5.html.url-encode/[0,1]?value
+                      target:_blank
+                      innerValue:Tweet
+                      class:share-button
+                    a
+                      href:/harvester
+                      innerValue:Rate it
+                      class:share-button

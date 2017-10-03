@@ -20,12 +20,12 @@ create-event:harvester.widgets.star-display
   /*
    * Changing values according to given [value].
    */
-  set:x:/../*/return/*/container/*/widgets/*/a/*/innerValue/[0,{0}]?value
+  set:x:/../*/return/*/container/*/widgets/*/literal/*/class/[0,{0}]?value
     :x:/../*/value?value
-    src:@"<span class=""icon-star""></span>"
-  set:x:/../*/return/*/container/*/widgets/*/a/*/innerValue/[{0},]?value
+    src:icon-star
+  set:x:/../*/return/*/container/*/widgets/*/literal/*/class/[{0},]?value
     :x:/../*/value?value
-    src:@"<span class=""icon-star-o""></span>"
+    src:icon-star-o
 
   /*
    * Returning container widget wrapping actual star rater widget.
@@ -33,28 +33,18 @@ create-event:harvester.widgets.star-display
   return
     container
       widgets
-        a
-          href:#
-          role:button
-          innerValue
-          title:Zux!
-        a
-          href:#
-          role:button
-          innerValue
-          title:OK'ish
-        a
-          href:#
-          role:button
-          innerValue
-          title:OK
-        a
-          href:#
-          role:button
-          innerValue
-          title:Very good
-        a
-          href:#
-          role:button
-          innerValue
-          title:Amazingly freakin' brilliant!
+        literal
+          element:span
+          class
+        literal
+          element:span
+          class
+        literal
+          element:span
+          class
+        literal
+          element:span
+          class
+        literal
+          element:span
+          class
