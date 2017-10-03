@@ -31,7 +31,7 @@ create-widget:harvester-container
                   element:textarea
                   class:fill
                   rows:5
-                  placeholder:Additional comment ...
+                  placeholder:Comment ...
                 div:rate-wrp
                   class:right
                   widgets

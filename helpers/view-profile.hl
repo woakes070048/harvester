@@ -52,7 +52,7 @@ p5.html.url-encode:x:/@p5.web.get-location?value
 /*
  * Modifying other parts of the website.
  */
-p5.web.page.set-title:I think this is awesome!
+p5.web.page.set-title:I recommend this!
 
 
 

@@ -1,0 +1,118 @@
+﻿
+/*
+ * File responsible for allowing user to modify settings of Harvester.
+ */
+
+
+
+
+
+/*
+ * Verifying user is logged in as root, and if not, 
+ * forcing the user to login before we proceed.
+ */
+whoami
+if:x:/@whoami/*/role?value
+  !=:root
+
+  /*
+   * User is not logged in as root.
+   */
+  p5.core.login
+    message:You'll need to configure the Harvester before you can start using it
+
+  /*
+   * Returning early to abort evaluating the rest of our file.
+   */
+  return
+
+
+
+
+
+/*
+ * Creating our "settings" widget.
+ */
+create-widget:harvester-settings
+  class:container
+  widgets
+    div
+      class:row
+      widgets
+        div
+          class:col-100
+          widgets
+            div
+              class:shaded rounded air-inner bg air-top col-80 offset-10
+              widgets
+                h1
+                  innerValue:Settings
+                  class:center
+                micro.widgets.wizard-form:settings-wizard
+                  text
+                    info:Your name
+                    .data-field:name
+                    oninit
+                      micro.page.set-focus:x:/../*/_event?value
+                  text
+                    info:Your email
+                    .data-field:email
+                  text
+                    info:SMTP server
+                    .data-field:server
+                    value:smtp.gmail.com
+                  text
+                    info:Port
+                    value:465
+                    .data-field:port
+                  text
+                    info:Username
+                    .data-field:username
+                    value:xxx@gmail.com
+                  text
+                    info:Password
+                    .data-field:password
+                    type:password
+                    autocomplete:new-password
+                  checkbox
+                    info:Use SSL
+                    .data-field:ssl
+                    checked
+                  text
+                    info:Subject
+                    title:Subject line for your auto-responder email
+                    .data-field:auto-responder-subject
+                    value:"Thank you for providing us feedback about Phosphorus Five"
+                  textarea
+                    info:Auto responder body ...
+                    .data-field:auto-responder-body
+                    rows:15
+                    innerValue:@"Hi [name], your feedback is highly valuable for us, and we use it constantly to improve our product.
+Click the following link to confirm your email address.
+
+[profile]
+
+If you didn't request this email, please just ignore it.
+
+
+Have a nice day :)
+
+Thomas Hansen, CTO and Chief Architect of Phosphorus Five and the GaiaSoul Suite"
+                  div
+                    class:right
+                    widgets
+                      button
+                        innerValue:Save
+                        onclick
+
+                          /*
+                           * Serializing form data, deleting old settings object if any,
+                           * and saving new settings.
+                           */
+                          micro.widgets.wizard-form.value:settings-wizard
+                          delete-data:x:/*/*/harvester.settings
+                          add:x:/+/*
+                            src:x:/@micro.widgets.wizard-form.value/*
+                          insert-data
+                            harvester.settings
+                          p5.web.set-location:/harvester

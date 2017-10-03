@@ -1,0 +1,84 @@
+﻿
+/*
+ * File responsible for sending auto-responder email.
+ *
+ * Requires [id] being database ID for profile.
+ */
+
+
+
+
+
+/*
+ * Retrieving settings for module.
+ */
+select-data:x:/*/*/harvester.settings
+
+
+
+
+
+/*
+ * Retrieving data from database, such that we can create our auto-responder email accordingly.
+ */
+p5.mysql.connect:[camphora]
+  p5.mysql.select:@"select * from `star-rater` where id = @id"
+    @id:x:/../*/id?value
+  set:x:/@select-data/*/*/auto-responder-body?value
+    replace:x:/@select-data/*/*/auto-responder-body?value
+      src:[name]
+      dest:x:/@p5.mysql.select/*/*/name?value
+  p5.web.get-location
+  set:x:/@select-data/*/*/auto-responder-body?value
+    replace:x:/@select-data/*/*/auto-responder-body?value
+      src:[profile]
+      dest:{0}/profile/{1}?confirm=true
+        :x:/@p5.web.get-location?value
+        :x:/@p5.mysql.select/*/*/id?value
+
+
+
+
+
+/*
+ * Decorating our SMTP invocation.
+ */
+eval-x:x:/../*/fork/**/p5.smtp.send(/*|/*/envelope/**)
+set:x:/../*/fork/**/p5.smtp.send/*/envelope/*/Sender/*/From?value
+  src:x:/@select-data/*/*/email?value
+set:x:/../*/fork/**/p5.smtp.send/*/envelope/*/Sender/*/From?name
+  src:x:/@select-data/*/*/name?value
+set:x:/../*/fork/**/p5.smtp.send/*/envelope/*/To/*/Recipient?value
+  src:x:/@p5.mysql.connect/*/p5.mysql.select/*/*/email?value
+set:x:/../*/fork/**/p5.smtp.send/*/envelope/*/To/*/Recipient?name
+  src:x:/@p5.mysql.connect/*/p5.mysql.select/*/*/name?value
+
+
+
+
+
+/*
+ * Sending our auto-responder email on a different thread.
+ */
+fork
+  try
+    p5.smtp.send
+      server:x:/@select-data/*/*/server?value
+      port:x:/@select-data/*/*/port?value
+      username:x:/@select-data/*/*/username?value
+      password:x:/@select-data/*/*/password?value
+      ssl:x:/@select-data/*/*/ssl?value
+      envelope
+        Subject:x:/@select-data/*/*/auto-responder-subject?value
+        Sender
+          From
+        To
+          Recipient
+        body
+          text:plain
+            content:x:/@select-data/*/*/auto-responder-body?value
+  catch
+
+    /*
+     * Not much to do here ...
+     */

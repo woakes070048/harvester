@@ -1,4 +1,7 @@
 
+.strip > label:first-child {
+    min-width: 120px;
+}
 
 .harvester-star-rater {
     font-size:2.5em;

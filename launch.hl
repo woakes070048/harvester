@@ -22,19 +22,55 @@ p5.web.include-css-file:@HARVESTER/media/main.css
 
 
 /*
- * Checking if we have a request for a specific "profile page".
+ * Verifying system has been configured.
+ */
+select-data:x:/*/*/harvester.settings
+
+
+
+
+
+/*
+ * Checking if we have a request for a specific page.
  */
 split:x:/../*/url?value
   =:/
+  =:?
 if:x:/@split/1?name
   =:profile
 
   /*
-   * A specific profile was requested.
+   * A specific profile was requested, checkinf if this is our confirmation email link.
    */
-  eval-x:x:/+/*
-  micro.evaluate.file:@HARVESTER/helpers/view-profile.hl
-    id:x:/@split/0/-?name.int
+  p5.web.query.get:confirm
+  if:x:/@p5.web.query.get/*?value
+
+    /*
+     * Profile is about to be confirmed.
+     */
+    eval-x:x:/+/*
+    micro.evaluate.file:@HARVESTER/helpers/confirm-profile.hl
+      id:x:/@split/2?name.int
+
+  else
+
+    /*
+     * Profile is about to be viewed.
+     */
+    eval-x:x:/+/*
+    micro.evaluate.file:@HARVESTER/helpers/view-profile.hl
+      id:x:/@split/2?name.int
+
+else-if:x:/@split/1?name
+  =:settings
+  or:x:/@select-data/*
+    not
+
+  /*
+   * User is trying to access settings for Harvester.
+   */
+  micro.evaluate.file:@HARVESTER/helpers/settings.hl
+  
 
 else
 
@@ -43,3 +79,21 @@ else
    * the user to rate the object.
    */
   micro.evaluate.file:@HARVESTER/helpers/rate.hl
+
+  /*
+   * Checking if user is "root", and if so, making sure we create a "settings button",
+   * allowing for him to edit his settings.
+   */
+  whoami
+  if:x:/@whoami/*/role?value
+    =:root
+
+    /*
+     * User is root, making sure we inject a "show settings" button for him.
+     */
+    create-widget
+      element:a
+      href:/harvester/settings
+      parent:widget-wrp
+      style:"text-align:center;display:block;"
+      innerValue:Settings ...

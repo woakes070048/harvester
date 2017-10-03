@@ -19,7 +19,12 @@ create-widget
       type:text
       onkeydown:@"if (event.keyCode == 13) {p5.$('submit-email').raise('onclick');return false;}"
       oninit
+
+        /*
+         * Settings initial focus to this bugger - (name textbox).
+         */
         micro.page.set-focus:x:/../*/_event?value
+
     input:collect-email
       placeholder:Email address ...
       type:text
@@ -56,6 +61,13 @@ create-widget
           disabled
 
         /*
+         * Invoking file responsible for sending the auto-responder email.
+         */
+        eval-x:x:/+/*
+        micro.evaluate.file:@HARVESTER/helpers/send-auto-responder.hl
+          id:x:/@p5.web.viewstate.get/*?value
+
+        /*
          * Re-directing user to "profile page" after 1 second, but only if he is
          * at least "partially happy" about the object.
          */
@@ -63,16 +75,10 @@ create-widget
           >:int:2
 
           /*
-           * Providing instant feedback to user, disabling the button, and waiting 2 seconds
-           * before we re-direct him to the "profile page".
-           */
-          micro.windows.info:"Thank you :)"
-
-          /*
            * User was happy about this, hence we'll re-direct him to his "profile page",
            * allowing him to share it on Facebook.
            */
-          p5.web.send-javascript:@"setTimeout(function(){{window.location='/harvester/profile/{0}'}}, 1000);"
+          p5.web.set-location:/harvester/profile/{0}
             :x:/@p5.web.viewstate.get/*?value
 
         else

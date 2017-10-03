@@ -1,0 +1,28 @@
+﻿
+/*
+ * File responsible for confirming a profile's email address.
+ *
+ * Expects [id] being database id.
+ */
+
+
+
+
+
+/*
+ * Fetching profile data from database.
+ */
+p5.mysql.connect:[camphora]
+  p5.mysql.update:@"update `star-rater` set `confirmed` = 1 where id = @id"
+    @id:x:/../*/id?value
+
+
+
+
+
+/*
+ * Reloading user to his "raw" profile, without the confirm HTTP query string parameter.
+ */
+p5.web.get-location-url
+p5.web.send-javascript:@"setTimeout(function(){{window.location = '{0}';}}, 500)"
+  :x:/@p5.web.get-location-url?value
