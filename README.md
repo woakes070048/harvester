@@ -45,5 +45,5 @@ more customers for you and your shop. You can create your own QR code, linking t
 rater [here](http://www.qr-code-generator.com/) for instance.
 
 Basically, it gives any _"mom and pop store"_ a billion dollars worth of marketing tools and infrastructure, and it's Free Software and 
-Open Source!
-
+Open Source! You can configure the system in 1 minute - It only requires a handful of (SMTP) settings for its _"auto responder"_ email 
+settings, and nothing more.
