@@ -1,5 +1,5 @@
 
-# The Harvester, a marketing tool for direct communication
+# The Harvester, a DTC marketing tool
 
 The _"Harvester"_ allows you to collect your customer love, and display it for the whole world
 to see it - And in the process, collect your customers' email address, having an opt-in for direct email marketing.
