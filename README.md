@@ -2,7 +2,7 @@
 # The Harvester, a DTC marketing tool
 
 The _"Harvester"_ allows you to collect your customer love, and display it for the whole world
-to see it - And in the process, collect your customers' email address, having an opt-in for direct email marketing.
+to see - And in the process, collect your customers' email address, having an explicit __opt-in for direct email marketing__.
 
 ![alt screenshot](media/screenshot-1.png)
 
@@ -32,5 +32,5 @@ and your service/product. Below is a screenshot of how this looks profile page l
 
 The system can be easily configured and installed on your own 
 server, [read how here](https://gaiasoul.com/2017/10/03/harvest-love-from-your-customers/). We can also help you create your own profile for
-the system.
+the system. You can [try a live version of the system here](https://samples.gaiasoul.com/harvester).
 
